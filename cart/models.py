@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from product.models import Product
@@ -14,7 +15,7 @@ class OrderItem(models.Model):
         return self.product.name
 
 
-class Client(models.Model):
+class Client(AbstractUser):
     name = models.CharField(max_length=255, verbose_name='Имя')
     address = models.TextField(verbose_name='Адрес')
 

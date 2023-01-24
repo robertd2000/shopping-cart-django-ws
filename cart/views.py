@@ -26,6 +26,7 @@ class CartView(generics.GenericAPIView):
     queryset = Client.objects.all()
 
     def get(self, request, pk):
+        # current_user = request.user
         client = Client.objects.get(pk=pk)
         serializer = ClientSerializer(client)
         return Response(serializer.data)

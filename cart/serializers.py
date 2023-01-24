@@ -18,7 +18,7 @@ class CartProductsSerializer(ModelSerializer):
 
     class Meta:
         model = Cart
-        fields = ['items']
+        fields = ['items', 'id']
 
 
 class ClientSerializer(ModelSerializer):
@@ -26,17 +26,17 @@ class ClientSerializer(ModelSerializer):
 
     class Meta:
         model = Client
-        fields = ['id', 'name', 'address', 'cart']
+        fields = ['id', 'name', 'address', 'username', 'cart']
 
 
 class ClientCreateSerializer(ModelSerializer):
     class Meta:
         model = Client
-        fields = ['id', 'name', 'address']
+        fields = ['id', 'name', 'address', 'password', 'username']
 
     def create(self, validated_data):
         client = Client.objects.create(**validated_data)
-        Cart.objects.create(client=client)
+        Cart.objects.create(client=client, id=client.pk)
         return client
 
 
@@ -46,8 +46,11 @@ class AddToCartSerializer(ModelSerializer):
         fields = ['product']
 
     def to_internal_value(self, data):
+        print(self.context.get('cart_id'))
         cart, status = Cart.objects.get_or_create(pk=self.context.get('cart_id'))
+        print(cart)
         product = Product.objects.get(id=data.get('product'))
+        print(cart)
         order_item = OrderItem.objects.create(product=product, cart=cart)
         print(order_item)
         return order_item
