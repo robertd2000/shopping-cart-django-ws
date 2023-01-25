@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password
 from rest_framework.serializers import ModelSerializer, CharField
 
 from product.models import Product
@@ -35,7 +36,8 @@ class ClientCreateSerializer(ModelSerializer):
         fields = ['id', 'name', 'address', 'password', 'username']
 
     def create(self, validated_data):
-        client = Client.objects.create(**validated_data)
+        password = make_password(validated_data.pop('password'))
+        client = Client.objects.create(**validated_data, password=password)
         Cart.objects.create(client=client, id=client.pk)
         return client
 
@@ -46,13 +48,9 @@ class AddToCartSerializer(ModelSerializer):
         fields = ['product']
 
     def to_internal_value(self, data):
-        print(self.context.get('cart_id'))
         cart, status = Cart.objects.get_or_create(pk=self.context.get('cart_id'))
-        print(cart)
         product = Product.objects.get(id=data.get('product'))
-        print(cart)
         order_item = OrderItem.objects.create(product=product, cart=cart)
-        print(order_item)
         return order_item
 
 

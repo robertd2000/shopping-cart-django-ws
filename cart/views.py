@@ -1,5 +1,7 @@
 from rest_framework import generics
+from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from .models import Client, OrderItem
 from .serializers import ClientSerializer, AddToCartSerializer, ClientCreateSerializer, DeleteItemFromCartSerializer
 
@@ -25,12 +27,15 @@ class CartView(generics.GenericAPIView):
     serializer_class = AddToCartSerializer
     queryset = Client.objects.all()
 
+    @permission_classes([IsAuthenticated])
     def get(self, request, pk):
-        # current_user = request.user
+        current_user = request.user
+        print(current_user)
         client = Client.objects.get(pk=pk)
         serializer = ClientSerializer(client)
         return Response(serializer.data)
 
+    @permission_classes([IsAuthenticated])
     def put(self, request, pk):
         serializer = AddToCartSerializer(data=request.data, context={'cart_id': pk})
         if serializer.is_valid():
