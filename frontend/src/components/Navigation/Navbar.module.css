@@ -1,0 +1,58 @@
+.container {
+  margin: auto;
+  width: 80%;
+}
+
+.lighter-text {
+  color: #abb0be;
+}
+
+.main-color-text {
+  color: #6394f8;
+}
+
+nav {
+  padding: 10px 0 60px 0;
+  background: #f8f8f8;
+  font-size: 16px;
+}
+
+.navbar-left {
+  float: left;
+}
+
+li {
+  display: inline;
+  padding-left: 20px;
+}
+
+a {
+  color: #777777;
+  text-decoration: none;
+}
+
+li a:hover {
+  color: black;
+}
+
+.navbar-right {
+  float: right;
+}
+
+.container {
+  margin: auto;
+  width: 80%;
+}
+
+.badge {
+  background-color: #6394f8;
+  border-radius: 10px;
+  color: white;
+  display: inline-block;
+  font-size: 12px;
+  line-height: 1;
+  padding: 3px 7px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
